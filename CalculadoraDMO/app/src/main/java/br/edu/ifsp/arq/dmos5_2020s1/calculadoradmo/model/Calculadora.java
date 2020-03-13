@@ -4,16 +4,18 @@ import br.edu.ifsp.arq.dmos5_2020s1.calculadoradmo.constants.Constantes;
 
 public class Calculadora {
 
-    private static Calculadora sCalculadora;
+    private static Calculadora sCalculadora = null;
     private float memoria;
     private int operacao;
 
     private Calculadora() {
-        sCalculadora = new Calculadora();
         c();
     }
 
     public static Calculadora getInstance() {
+        if(sCalculadora == null){
+            sCalculadora = new Calculadora();
+        }
         return sCalculadora;
     }
 
