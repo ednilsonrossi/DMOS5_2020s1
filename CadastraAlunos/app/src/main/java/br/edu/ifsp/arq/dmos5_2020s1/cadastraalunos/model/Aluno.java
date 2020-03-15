@@ -1,5 +1,7 @@
 package br.edu.ifsp.arq.dmos5_2020s1.cadastraalunos.model;
 
+import androidx.annotation.NonNull;
+
 public class Aluno {
     private int prontuario;
     private String nome;
@@ -23,5 +25,11 @@ public class Aluno {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format("RA: %d\n%s", prontuario, nome);
     }
 }
