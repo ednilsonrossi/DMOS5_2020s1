@@ -25,11 +25,11 @@ public class Calculadora {
     }
 
     public float calcular(int operacao, float valor) {
-        if (this.operacao == Constantes.RESULTADO) {
+        if (this.operacao == Constantes.NULO) {
             this.operacao = operacao;
             this.memoria = valor;
         } else {
-            switch (this.operacao) {
+            switch (operacao) {
                 case Constantes.ADICAO:
                     memoria += valor;
                     break;
