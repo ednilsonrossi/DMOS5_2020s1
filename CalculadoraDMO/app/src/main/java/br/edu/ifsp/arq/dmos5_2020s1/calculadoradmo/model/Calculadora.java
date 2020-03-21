@@ -29,7 +29,7 @@ public class Calculadora {
             this.operacao = operacao;
             this.memoria = valor;
         } else {
-            switch (operacao) {
+            switch (this.operacao) {
                 case Constantes.ADICAO:
                     memoria += valor;
                     break;
