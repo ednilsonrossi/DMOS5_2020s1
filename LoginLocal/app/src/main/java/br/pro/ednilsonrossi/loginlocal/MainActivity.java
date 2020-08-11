@@ -8,17 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = "LOGIN_LOCAL";
-    public static final String USUARIO = "usuario";
-    public static final String SENHA = "senha";
 
     private EditText usuarioEditText;
     private EditText senhaEditText;
     private Button logarButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         usuarioEditText = findViewById(R.id.edittext_usuario);
         senhaEditText = findViewById(R.id.edittext_senha);
+
         logarButton = findViewById(R.id.button_logar);
 
         logarButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -72,23 +74,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == logarButton){
-            int usuario, senha;
-            try{
-                usuario = Integer.parseInt(usuarioEditText.getText().toString());
-                senha = Integer.parseInt(senhaEditText.getText().toString());
-            }catch (NumberFormatException nfe){
-                Toast.makeText(this, "Valores informados são inválidos.", Toast.LENGTH_SHORT).show();
-                return;
-            }catch (Exception ex){
-                Toast.makeText(this, "Erro na entrada de dados.", Toast.LENGTH_SHORT).show();
-                return;
+            String usuario, senha;
+            usuario = usuarioEditText.getText().toString();
+            senha = senhaEditText.getText().toString();
+
+            if(usuario.isEmpty() || senha.isEmpty()){
+                Toast.makeText(this, R.string.erro_entrada_msg, Toast.LENGTH_SHORT).show();
             }
+
             Intent in = new Intent(this, BemVindoActivity.class);
             Bundle args = new Bundle();
-            args.putInt(USUARIO, usuario);
-            args.putInt(SENHA, senha);
+            args.putString(getString(R.string.key_usuario), usuario);
+            args.putString(getString(R.string.key_senha), senha);
             in.putExtras(args);
             startActivity(in);
+            return;
         }
+
     }
 }

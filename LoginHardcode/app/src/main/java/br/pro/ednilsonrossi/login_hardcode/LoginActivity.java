@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if(view == loginButton){
             if(usuarioEditText.getText().toString().isEmpty() || senhaEditText.getText().toString().isEmpty()){
-                Toast.makeText(this, "Os campos usuário e senha devem ser preenchidos!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.msg_preencher_dados, Toast.LENGTH_SHORT).show();
             }else{
                 Intent intent = new Intent(this, BemVindoActivity.class);
                 Bundle parametros = new Bundle();

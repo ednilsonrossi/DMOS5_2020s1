@@ -1,8 +1,16 @@
 <resources>
-    <string name="app_name">LoginLocal</string>
+    <string name="app_name">Login no Dispositivo</string>
     <string name="usuario">Usuário</string>
-    <string name="hint_usuario">Digite prontuário</string>
+    <string name="hint_usuario">Digite seu e-mail</string>
     <string name="senha">Senha</string>
     <string name="hint_senha">Digite a senha</string>
     <string name="logar">Logar</string>
+
+    <string name="key_usuario">USUARIO</string>
+    <string name="key_senha">SENHA</string>
+    <string name="user_default">ednilsonrossi@ifsp.edu.br</string>
+    <string name="passwd_default">password</string>
+    <string name="bem_vindo_msg">Bem vindo usuário</string>
+    <string name="erro_login_msg">Erro no login</string>
+    <string name="erro_entrada_msg">Informe usuário e senha.</string>
 </resources>

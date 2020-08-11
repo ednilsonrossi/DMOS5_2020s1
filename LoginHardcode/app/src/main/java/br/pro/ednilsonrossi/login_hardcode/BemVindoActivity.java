@@ -26,9 +26,9 @@ public class BemVindoActivity extends AppCompatActivity {
         String senha = parametros.getString(LoginActivity.SENHA);
 
         if(usuario.equals("112744") && senha.equals("447211")){
-            mensagemTextView.setText("Bem vindo " + usuario);
+            mensagemTextView.setText(getString(R.string.bem_vindo) + " " + usuario);
         }else{
-            mensagemTextView.setText("Erro no login");
+            mensagemTextView.setText(R.string.erro_login);
         }
     }
 

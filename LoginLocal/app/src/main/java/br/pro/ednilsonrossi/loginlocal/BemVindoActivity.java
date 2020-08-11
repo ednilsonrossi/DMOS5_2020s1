@@ -12,8 +12,8 @@ import android.widget.TextView;
 public class BemVindoActivity extends AppCompatActivity {
 
     private TextView mensagemTextView;
-    private int usuario;
-    private int senha;
+    private String usuario;
+    private String senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class BemVindoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        usuario = intent.getIntExtra(MainActivity.USUARIO, -1);
-        senha = intent.getIntExtra(MainActivity.SENHA, -1);
+        usuario = intent.getStringExtra(getString(R.string.key_usuario));
+        senha = intent.getStringExtra(getString(R.string.key_senha));
         validarUsuario();
     }
 
@@ -70,19 +70,19 @@ public class BemVindoActivity extends AppCompatActivity {
 
 
     private void validarUsuario(){
-        if(usuario == 112744 && senha == 447211){
-            mensagemTextView.setText("Bem vindo usuário");
+        if(usuario.equals(getString(R.string.user_default)) && senha.equals(getString(R.string.passwd_default))){
+            mensagemTextView.setText(R.string.bem_vindo_msg);
         }else{
-            mensagemTextView.setText("Erro no login");
+            mensagemTextView.setText(R.string.erro_login_msg);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            //finish();
+            //Intent intent = new Intent(this, MainActivity.class);
+            //startActivity(intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

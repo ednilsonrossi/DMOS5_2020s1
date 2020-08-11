@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Login_Hardcode</string>
+    <string name="app_name">Login Hardcode</string>
+    <string name="usuario">Usuário</string>
+    <string name="hint_prontuario">Números do prontuário</string>
+    <string name="senha">Senha</string>
+    <string name="login">Login</string>
+    <string name="msg_preencher_dados">Os campos usuário e senha devem ser preenchidos!</string>
+    <string name="erro_login">Erro no login</string>
+    <string name="bem_vindo">Bem vindo </string>
 </resources>

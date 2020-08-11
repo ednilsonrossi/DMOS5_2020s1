@@ -12,6 +12,5 @@
         android:id="@+id/text_mensagem"
         android:layout_centerInParent="true"
         android:textColor="#000"
-        android:textSize="20sp"
-        android:text="oi"/>
+        android:textSize="20sp" />
 </RelativeLayout>
