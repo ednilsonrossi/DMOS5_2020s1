@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LoginLocal</string>
+    <string name="usuario">Usuário</string>
+    <string name="hint_usuario">Digite prontuário</string>
+    <string name="senha">Senha</string>
+    <string name="hint_senha">Digite a senha</string>
+    <string name="logar">Logar</string>
+</resources>
