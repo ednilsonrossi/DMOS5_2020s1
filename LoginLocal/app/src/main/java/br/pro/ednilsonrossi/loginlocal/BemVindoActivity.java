@@ -89,6 +89,7 @@ public class BemVindoActivity extends AppCompatActivity {
 
 
     private void validarUsuario(){
+        //Observe que a validação se dá com os dados armazenados no arquivo de recursos.
         /*if(usuario.equals(getString(R.string.user_default)) && senha.equals(getString(R.string.passwd_default))){
             mensagemTextView.setText(R.string.bem_vindo_msg);
         }else{
