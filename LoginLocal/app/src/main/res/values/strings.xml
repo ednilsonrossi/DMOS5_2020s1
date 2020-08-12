@@ -8,9 +8,11 @@
 
     <string name="key_usuario">USUARIO</string>
     <string name="key_senha">SENHA</string>
+    <string name="key_lembrar">LEMBRAR</string>
     <string name="user_default">ednilsonrossi@ifsp.edu.br</string>
     <string name="passwd_default">password</string>
     <string name="bem_vindo_msg">Bem vindo usuário</string>
     <string name="erro_login_msg">Erro no login</string>
     <string name="erro_entrada_msg">Informe usuário e senha.</string>
+    <string name="lembrar_login">Lembrar informações de login</string>
 </resources>
