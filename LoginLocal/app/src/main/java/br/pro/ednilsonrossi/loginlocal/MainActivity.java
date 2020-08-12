@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public static final String TAG = "LOGIN_LOCAL";
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
@@ -23,12 +22,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText senhaEditText;
     private Button logarButton;
     private CheckBox lembrarCheckBox;
+    private TextView novoUsuarioTextView;
 
     private String usuario, senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onCreate()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -36,10 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         senhaEditText = findViewById(R.id.edittext_senha);
         logarButton = findViewById(R.id.button_logar);
         lembrarCheckBox = findViewById(R.id.checkbox_lembrar);
+        novoUsuarioTextView = findViewById(R.id.textview_novo);
 
         logarButton.setOnClickListener(this);
+        novoUsuarioTextView.setOnClickListener(this);
 
-        mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+        //mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+        mSharedPreferences = this.getSharedPreferences(getString(R.string.file_preferences), MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
 
@@ -47,38 +50,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onStart()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onStart()");
         super.onStart();
     }
 
     @Override
     protected void onRestart() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onRestart()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onRestart()");
         super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onResume()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onResume()");
         verificarPreferencias();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onPause()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onPause()");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onStop()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onStop()");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "Classe: " + getClass().getSimpleName() +  "| Método : onDestroy()");
+        Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onDestroy()");
         super.onDestroy();
     }
 
@@ -96,7 +99,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             salvaPreferencias();
             abrirBoasVindas();
 
+            return;
+        }
 
+        if(view == novoUsuarioTextView){
+            Intent in = new Intent(this, NovoUsuarioActivity.class);
+            startActivity(in);
             return;
         }
 
@@ -114,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void salvaPreferencias(){
 
         if(lembrarCheckBox.isChecked()){
-            Log.i(TAG, "salvando");
+            Log.i(getString(R.string.tag), "salvando");
             mEditor.putString(getString(R.string.key_usuario), usuario);
             mEditor.commit();
 
@@ -124,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mEditor.putBoolean(getString(R.string.key_lembrar), true);
             mEditor.commit();
         }else{
-            Log.i(TAG, "não salvando");
             mEditor.putString(getString(R.string.key_usuario), "");
             mEditor.commit();
 
