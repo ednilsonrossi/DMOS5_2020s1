@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--
+    Esse elemento está ancorado no pai (tela | constraintLayout) tanto no topo (top)
+    quanto no início (start) (esquerda).
+    -->
     <TextView
         android:id="@+id/textView_usuario"
         android:layout_width="wrap_content"
@@ -16,6 +20,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+    Esse elemento está vinculado ao textview, alterar a posição do textview reflete na posição
+    desse elemento.
+    -->
     <EditText
         android:id="@+id/edittext_usuario"
         android:layout_width="match_parent"
