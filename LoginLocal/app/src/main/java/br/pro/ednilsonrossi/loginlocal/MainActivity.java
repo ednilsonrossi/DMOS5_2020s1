@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //Objetos utilizados para armazenar e recuperar os dados
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
@@ -41,8 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logarButton.setOnClickListener(this);
         novoUsuarioTextView.setOnClickListener(this);
 
-        //mSharedPreferences = this.getPreferences(MODE_PRIVATE);
-        mSharedPreferences = this.getSharedPreferences(getString(R.string.file_preferences), MODE_PRIVATE);
+        //Vamos instanciar as preferencias em modo privado, ou seja, somente acessíveis
+        //ao próprio app.
+        mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+        //mSharedPreferences = this.getSharedPreferences(getString(R.string.file_preferences), MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
 
@@ -60,10 +63,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRestart();
     }
 
+    /*
+    No onResumo() é um bom momento para verificar se o usuário possui dados armazenados ou não,
+    lembre-se que o onCreate() só é executado uma vez.
+     */
     @Override
     protected void onResume() {
         Log.i(getString(R.string.tag), "Classe: " + getClass().getSimpleName() +  "| Método : onResume()");
+
+        //Vamos verificar se o usuário possui preferências
         verificarPreferencias();
+
         super.onResume();
     }
 
@@ -96,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
 
+            //Antes de abrir a outra tela se verifica se o usuário deseja armazenar
+            //os dados de login para outros acessos.
             salvaPreferencias();
             abrirBoasVindas();
 
@@ -121,8 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void salvaPreferencias(){
 
+        //Caso o checkbox esteja marcado, armazenamos os dados no objeto,
+        //caso contrário vamos apenas armazenar um vazio.
         if(lembrarCheckBox.isChecked()){
-            Log.i(getString(R.string.tag), "salvando");
             mEditor.putString(getString(R.string.key_usuario), usuario);
             mEditor.commit();
 
@@ -144,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /*
+    Aqui recuperamos as preferências do usuário, e caso existam (boolean lembrar) atualizamos
+    os dados na tela da activity.
+     */
     private void verificarPreferencias() {
         usuario = mSharedPreferences.getString(getString(R.string.key_usuario), "");
         senha = mSharedPreferences.getString(getString(R.string.key_senha), "");
