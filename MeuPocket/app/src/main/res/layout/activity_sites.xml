@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".view.SitesActivity">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:id="@+id/list_sites" />
+        android:id="@+id/recycler_lista_sites"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
