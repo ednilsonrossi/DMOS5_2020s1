@@ -41,7 +41,7 @@ public class ItemSiteAdapter extends RecyclerView.Adapter<ItemSiteAdapter.SitesV
     }
 
     /*
-    Esse método precisa ser sobreescrito para que o tratamento adequado dos itens da RecyclerView
+    Esse método precisa ser sobrescrito para que o tratamento adequado dos itens da RecyclerView
     seja realizado. Aqui configuraremos qual o layout que será utilizado e inflaremos esse layout.
     Tudo aqui é definido no ViewHolder.
      */
