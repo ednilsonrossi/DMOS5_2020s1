@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class SitesActivity extends AppCompatActivity{
 
     //Referência para o elemento de RecyclerView
     private RecyclerView sitesRecyclerView;
+    private ImageView listaVaziaTextView;
 
     //Fonte de dados, essa lista possue os dados que são apresentados
     //na tela dos dispositivo.
@@ -42,6 +45,7 @@ public class SitesActivity extends AppCompatActivity{
 
         //Recupera a referência do elemento no layout
         sitesRecyclerView = findViewById(R.id.recycler_lista_sites);
+        listaVaziaTextView = findViewById(R.id.textview_lista_vazia);
 
         //Ao contrário do ListView um RecyclerView necessita de um LayoutManager (gerenciador de
         // layout) para gerenciar o posicionamento de seus itens. Utilizarei um LinearLayoutManager
@@ -65,6 +69,14 @@ public class SitesActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        if(siteList.size() == 0){
+            listaVaziaTextView.setVisibility(View.VISIBLE);
+            sitesRecyclerView.setVisibility(View.GONE);
+        }else{
+            listaVaziaTextView.setVisibility(View.GONE);
+            sitesRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private String corrigeEndereco(String endereco) {
