@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MyPocket2</string>
+
+    <!-- Texto da NovoSiteActivity -->
+    <string name="actnovo_button_save">Salvar</string>
+    <string name="actnovo_hint_address">Informe a URL do site</string>
+    <string name="actnovo_hint_title">Apelido do site</string>
+    <string name="actnovo_msg_save_sucess">Salvo com sucesso</string>
+    <string name="actnovo_msg_erro_data_missing">Por favor, preencha todos os dados</string>
+    
 </resources>
