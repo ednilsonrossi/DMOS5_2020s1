@@ -2,14 +2,14 @@
     <string name="app_name">Meu Pocket</string>
     <string name="tag">MEUPOCKET</string>
 
-
-
+    <!--Constantes de dados -->
     <string name="data_file">dados_sites</string>
     <string name="table_sites">sites</string>
     <string name="column_titulo">titulo</string>
     <string name="column_url">endereco</string>
     <string name="column_favorito">favorito</string>
 
+    <!--Mensagens do app-->
     <string name="hint_titulo">Informe o apelido do site</string>
     <string name="hint_endereco">URL do site</string>
     <string name="salvar">Salvar</string>

@@ -15,15 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.pro.ednilsonrossi.meupocket.R;
@@ -35,7 +28,7 @@ import br.pro.ednilsonrossi.meupocket.model.Site;
 
 public class SitesActivity extends AppCompatActivity{
 
-    private static final int REQUEST_NOVO_SITE = 32;
+    private static final int REQUESTCODE_NOVO_SITE = 32;
 
 
     //Referência para o elemento de RecyclerView
@@ -121,19 +114,50 @@ public class SitesActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_adicionar:
+                /*
+                Quando solicitada uma nova Activity para inserir um site iremos chamar
+                a activity de uma forma diferente, agora vamos utilizar o método
+                startActivityForResult(), isso porque a activity chamada irá produzir um resultado
+                para a SitesActivity, no caso, um novo site para ser cadastrado.
+
+                Os parâmetros do startActivityForResult() são a intent, da mesma forma que o
+                startActivity() e também o código da requisição. Esse código será necessário
+                no momento de tratar o resultado esperado. Observo que o código de requisição
+                é um valor inteiro que você (programador) deve controlar, no exemplo, foi criada
+                uma constante nesta activity.
+                 */
                 Intent intent = new Intent(this, NovoSiteActivity.class);
-                startActivityForResult(intent, REQUEST_NOVO_SITE);
+                startActivityForResult(intent, REQUESTCODE_NOVO_SITE);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    /*
+    O método que trata o resultado de activity recebe três argumentos:
+        - requestCode: é o mesmo código de requisição informado na chamada do startActivityForResult(),
+            aqui é o momento de verificar qual o requisição é que preduziu resultado.
+        - resultCode: é o resultado da requisição, isso pode ser um RESULT_OK ou um RESULT_CANCELED, conforme
+            esse exemplo. No caso, só nos interessa o RESULT_OK pois significa que existe um novo site para
+            ser inserido na lista.
+        - data: Essa é a Intent que possui os dados de resultado. Lembro que esses dados são gerados na
+            outra activity e devolvidos pelo Bundle da Intent.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_NOVO_SITE){
+
+        if (requestCode == REQUESTCODE_NOVO_SITE){
             if(resultCode == Activity.RESULT_OK){
+                /*
+                O RESULT_OK indica que temos um novo site, assim, vamos recuperar os dados do Bundle e
+                criar um novo objeto do tipo Site. Esse objeto é inserido na lista.
+                Depois de inserir o objeto na lista devemos informar o adapter que houve atualização
+                na lista, para isso realizamos a chamada no método updateDataSet() que foi implementado
+                no adapter.
+                 */
                 String titulo = data.getStringExtra(getString(R.string.column_titulo));
                 String endereco = data.getStringExtra(getString(R.string.column_url));
                 Site site = new Site(titulo, endereco);
@@ -145,6 +169,11 @@ public class SitesActivity extends AppCompatActivity{
 
     @Override
     protected void onDestroy() {
+        /*
+        Como a lista de sites está em memória só precisamos salvar os dados quando a activity for destruída,
+        assim, aproveitando o ciclo de vida a activity podemos salvar todos os sites no SharedPreferences
+        nesse momento.
+         */
         try {
             SiteDao.saveAll(siteList, this);
         }catch (InsertException ex){
