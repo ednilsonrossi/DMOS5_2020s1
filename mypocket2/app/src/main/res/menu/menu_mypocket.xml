@@ -7,6 +7,4 @@
         android:title="Novo Site"
         app:showAsAction="ifRoom" />
 
-
-
 </menu>

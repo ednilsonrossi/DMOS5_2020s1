@@ -24,6 +24,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+    /*
+    O método onCreate() é chamado apenas quando o aplicativo é instalado no dispositivo. Depois
+    de instalado esse método não é mais invocado.
+
+    Esse método é responsável pela criação de todas as tabelas no banco de dados. Observe
+    que é muito simples a execução de um comando sql no banco de dados.
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "CREATE TABLE " + TABLE_NAME + " (";
@@ -35,6 +43,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
     }
 
+
+    /*
+    Esse método é chamado quando a versão do banco de dados muda. Vamos falar dele no futuro.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 

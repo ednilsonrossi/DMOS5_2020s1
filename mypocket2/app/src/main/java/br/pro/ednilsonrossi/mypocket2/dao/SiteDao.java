@@ -22,16 +22,26 @@ public class SiteDao {
     public List<Site> buscaTodos(){
         List<Site> mLista = new ArrayList<>();
         Site mSite;
+
+        // O Cursos funciona como um ResultSet, ele possui uma tabela temporária com os
+        // dados que foram recuperados do banco. O ponteiro inicialmente aponta para null.
         Cursor mCursor;
 
+        //Aqui é feita uma conexão com o banco de dados com direito de leitura.
         mDatabase = mHelper.getReadableDatabase();
 
+        // Para definirmos quais as colunas que desejamos e a ordem de apresentação, cria-se um
+        // vetor de Strings com o nome de cada coluna que será devolvida na consulta.
         String colunas[] = new String[] {
                 SQLiteHelper.COLUMN_TITULO,
                 SQLiteHelper.COLUMN_ENDERECO,
                 SQLiteHelper.COLUMN_FAVORITO
         };
 
+        // A consulta no banco de dados é retornada para um Cursor. A query passada já é formatada
+        // para facilitar a programação. Nesse momento estou indicando apenas o nome da tabela (
+        // TABLE_NAME), as colunas da consulta e a ordenação (COLUMN_TITULO). Os demais argumentos
+        // serão trabalhados no fututo.
         mCursor = mDatabase.query(
                 SQLiteHelper.TABLE_NAME,
                 colunas,
@@ -42,6 +52,10 @@ public class SiteDao {
                 SQLiteHelper.COLUMN_TITULO
         );
 
+
+        // O cursos consegue recuperar o tipo específico do dado, porém é preciso informar
+        // qual a ordem da coluna iniciando de zero.
+        // Após recuperar o dado ele é inserido na lista e devolvido como argumento.
         while (mCursor.moveToNext()){
             mSite = new Site(
                     mCursor.getString(0),
@@ -58,6 +72,10 @@ public class SiteDao {
         return mLista;
     }
 
+
+    // Mais fácil que consultar é salvar um dado, basta indicar em um ContentValues ou seja, em
+    // um objeto que armazena chave e valor e solicitar que os dados sejam salvos no banco de
+    // dados. Atenção pois o nome das colunas deve ser sempre o mesmo.
     public void adiciona(Site site){
         mDatabase = mHelper.getWritableDatabase();
 
@@ -74,6 +92,9 @@ public class SiteDao {
         mDatabase.close();
     }
 
+
+    // A única diferença entre salva um novo dado e editar um dado existente é a configuração
+    // da clausula where que é feita em uma string.
     public void atualiza(Site site){
         mDatabase = mHelper.getWritableDatabase();
 

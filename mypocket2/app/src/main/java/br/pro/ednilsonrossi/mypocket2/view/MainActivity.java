@@ -87,17 +87,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUESTCODE_NOVO_SITE){
             if(resultCode == Activity.RESULT_OK){
-                /*
-                O RESULT_OK indica que temos um novo site, assim, vamos recuperar os dados do Bundle e
-                criar um novo objeto do tipo Site. Esse objeto é inserido na lista.
-                Depois de inserir o objeto na lista devemos informar o adapter que houve atualização
-                na lista, para isso realizamos a chamada no método updateDataSet() que foi implementado
-                no adapter.
-                 */
                 String titulo = data.getStringExtra(Constantes.ATTR_TITULO);
                 String endereco = data.getStringExtra(Constantes.ATTR_ENDERECO);
                 Site site = new Site(titulo, endereco);
+
+                //Salva o novo site no Banco de Dados
                 siteDao.adiciona(site);
+
                 mSiteList.add(site);
                 mRecyclerView.getAdapter().notifyDataSetChanged();
             }
