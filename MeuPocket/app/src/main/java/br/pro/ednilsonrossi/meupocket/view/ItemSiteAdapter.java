@@ -139,4 +139,8 @@ public class ItemSiteAdapter extends RecyclerView.Adapter<ItemSiteAdapter.SitesV
         notifyDataSetChanged();
     }
 
+    public void updateDataSet(){
+        notifyDataSetChanged();
+    }
+
 }

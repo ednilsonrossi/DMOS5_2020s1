@@ -1,13 +1,16 @@
 package br.pro.ednilsonrossi.meupocket.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,13 +22,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.pro.ednilsonrossi.meupocket.R;
 import br.pro.ednilsonrossi.meupocket.dao.SiteDao;
+import br.pro.ednilsonrossi.meupocket.exceptions.EmptyDatabaseException;
+import br.pro.ednilsonrossi.meupocket.exceptions.InsertException;
+import br.pro.ednilsonrossi.meupocket.exceptions.RecuperateException;
 import br.pro.ednilsonrossi.meupocket.model.Site;
 
 public class SitesActivity extends AppCompatActivity{
+
+    private static final int REQUEST_NOVO_SITE = 32;
+
 
     //Referência para o elemento de RecyclerView
     private RecyclerView sitesRecyclerView;
@@ -54,12 +65,18 @@ public class SitesActivity extends AppCompatActivity{
         sitesRecyclerView.setLayoutManager(layoutManager);
 
         //Carrega a fonte de dados
-        siteList = SiteDao.recuperateAll();
-
+        try {
+            siteList = SiteDao.recuperateAll(this);
+        }catch (RecuperateException e){
+            //siteList = new ArrayList<>();
+            Log.e(getString(R.string.tag), "Erro ao recuperar lista de dados.");
+        }catch (EmptyDatabaseException ex){
+            //siteList = new ArrayList<>();
+            Log.e(getString(R.string.tag), "String vazia no sharedPreferences");
+        }
         siteAdapter = new ItemSiteAdapter(siteList);
 
         sitesRecyclerView.setAdapter(siteAdapter);
-
         siteAdapter.setClickListener(new RecyclerItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -70,6 +87,12 @@ public class SitesActivity extends AppCompatActivity{
             }
         });
 
+        configuraApresentacao();
+
+    }
+
+
+    private void configuraApresentacao(){
         if(siteList.size() == 0){
             listaVaziaTextView.setVisibility(View.VISIBLE);
             sitesRecyclerView.setVisibility(View.GONE);
@@ -98,8 +121,35 @@ public class SitesActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_adicionar:
-                //TODO abrir tela para adicionar novo site.
+                Intent intent = new Intent(this, NovoSiteActivity.class);
+                startActivityForResult(intent, REQUEST_NOVO_SITE);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_NOVO_SITE){
+            if(resultCode == Activity.RESULT_OK){
+                String titulo = data.getStringExtra(getString(R.string.column_titulo));
+                String endereco = data.getStringExtra(getString(R.string.column_url));
+                Site site = new Site(titulo, endereco);
+                siteList.add(site);
+                siteAdapter.updateDataSet();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            SiteDao.saveAll(siteList, this);
+        }catch (InsertException ex){
+            Log.e(getString(R.string.tag), getString(R.string.erro_insercao_dados));
+        }
+        super.onDestroy();
     }
 }
