@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.pro.ednilsonrossi.meupocket.R;
@@ -61,10 +62,10 @@ public class SitesActivity extends AppCompatActivity{
         try {
             siteList = SiteDao.recuperateAll(this);
         }catch (RecuperateException e){
-            //siteList = new ArrayList<>();
+            siteList = new ArrayList<>();
             Log.e(getString(R.string.tag), "Erro ao recuperar lista de dados.");
         }catch (EmptyDatabaseException ex){
-            //siteList = new ArrayList<>();
+            siteList = new ArrayList<>();
             Log.e(getString(R.string.tag), "String vazia no sharedPreferences");
         }
         siteAdapter = new ItemSiteAdapter(siteList);
@@ -162,7 +163,8 @@ public class SitesActivity extends AppCompatActivity{
                 String endereco = data.getStringExtra(getString(R.string.column_url));
                 Site site = new Site(titulo, endereco);
                 siteList.add(site);
-                siteAdapter.updateDataSet();
+                sitesRecyclerView.getAdapter().notifyDataSetChanged();
+                configuraApresentacao();
             }
         }
     }
