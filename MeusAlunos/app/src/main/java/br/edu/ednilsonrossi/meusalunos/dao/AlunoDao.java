@@ -27,6 +27,7 @@ public class AlunoDao {
         ContentValues valores = new ContentValues();
         valores.put(SQLiteHelper.COLUMN_PRONTUARIO, aluno.getProntuario());
         valores.put(SQLiteHelper.COLUMN_NOME, aluno.getNome());
+        valores.put(SQLiteHelper.COLUMN_EMAIL, aluno.getEmail());
 
         mSqLiteDatabase = mHelper.getWritableDatabase();
         if(mSqLiteDatabase.insert(SQLiteHelper.TABLE_NAME_ALUNOS, null, valores) == -1){
@@ -45,7 +46,8 @@ public class AlunoDao {
 
         String colunas[] = new String[]{
                 SQLiteHelper.COLUMN_PRONTUARIO,
-                SQLiteHelper.COLUMN_NOME
+                SQLiteHelper.COLUMN_NOME,
+                SQLiteHelper.COLUMN_EMAIL
         };
 
         mSqLiteDatabase = mHelper.getReadableDatabase();
@@ -63,7 +65,8 @@ public class AlunoDao {
         while (mCursor.moveToNext()){
             mAluno = new Aluno(
                     mCursor.getString(0),
-                    mCursor.getString(1)
+                    mCursor.getString(1),
+                    mCursor.getString(2)
             );
             mAlunoList.add(mAluno);
         }

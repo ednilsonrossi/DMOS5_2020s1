@@ -4,6 +4,7 @@
     <!-- NovoAlunoActivity -->
     <string name="hint_input_prontuario">Digite o prontuário</string>
     <string name="hint_input_nome_aluno">Digite nome do aluno</string>
+    <string name="hint_input_email_aluno">Digite o e-mail do aluno</string>
     <string name="button_save">Salvar</string>
     <string name="erro_empty_fields">É necessário informar valores para os campos.</string>
     <string name="erro_duplicate_prontuario">Prontuário já cadastrado</string>

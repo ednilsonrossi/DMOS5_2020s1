@@ -24,6 +24,7 @@ public class NovoAlunoActivity extends AppCompatActivity implements View.OnClick
 
     private EditText prontuarioEditText;
     private EditText nomeEditText;
+    private EditText emailEditText;
     private Button salvarButton;
 
     private AlunoDao mAlunoDao;
@@ -38,6 +39,7 @@ public class NovoAlunoActivity extends AppCompatActivity implements View.OnClick
         //Recuperar referências do layout
         prontuarioEditText = findViewById(R.id.edittext_prontuario);
         nomeEditText = findViewById(R.id.edittext_aluno);
+        emailEditText = findViewById(R.id.edittext_email);
         salvarButton = findViewById(R.id.button_save);
         salvarButton.setOnClickListener(this);
 
@@ -64,16 +66,17 @@ public class NovoAlunoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void salvarAluno(){
-        String prontuario, nome;
+        String prontuario, nome, email;
         prontuario = prontuarioEditText.getText().toString();
         nome = nomeEditText.getText().toString();
+        email = emailEditText.getText().toString();
 
-        if(prontuario.isEmpty() || nome.isEmpty()){
+        if(prontuario.isEmpty() || nome.isEmpty() || email.isEmpty()){
             showSnackbar(getString(R.string.erro_empty_fields));
         }else{
             mAlunoDao = new AlunoDao(this);
             try{
-                mAlunoDao.adicionar(new Aluno(prontuario, nome));
+                mAlunoDao.adicionar(new Aluno(prontuario, nome, email));
                 finalizar(true);
             }catch (ChavePrimariaDuplicadaException e){
                 showSnackbar(getString(R.string.erro_duplicate_prontuario));
