@@ -2,6 +2,7 @@ package br.pro.ednilsonrossi.meupocket.dao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,8 @@ public class SiteDao {
         mSharedPreferences = context.getSharedPreferences(context.getString(R.string.data_file), Context.MODE_PRIVATE);
 
         mJsonString = mSharedPreferences.getString(context.getString(R.string.table_sites), "");
+
+        Log.i("GULO", mJsonString);
 
         if(!mJsonString.isEmpty()){
             try {

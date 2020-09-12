@@ -9,8 +9,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$USER_HOME$/ownCloud/0_Arquivos_Ednilson/IFSP-Compartilhado/01-Disciplinas/2020/1/DMOS5/DMOS5_2020s1/CadastraAlunos" />
-            <option value="$USER_HOME$/ownCloud/0_Arquivos_Ednilson/IFSP-Compartilhado/01-Disciplinas/2020/1/DMOS5/DMOS5_2020s1/CadastraAlunos/app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
