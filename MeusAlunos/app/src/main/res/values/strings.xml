@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meus Alunos</string>
+    <string name="app_name">Meus Alunos APP</string>
 
     <!-- NovoAlunoActivity -->
     <string name="hint_input_prontuario">Digite o prontuário</string>
@@ -9,5 +9,12 @@
     <string name="erro_empty_fields">É necessário informar valores para os campos.</string>
     <string name="erro_duplicate_prontuario">Prontuário já cadastrado</string>
     <string name="erro_null_aluno">Usuário inválido</string>
+
+    <!-- NovaDisciplinaActivity -->
+    <string name="hint_input_sigla">Digite a sigla</string>
+    <string name="hint_input_disciplina">Digite nome completo da disciplina</string>
+    <string name="button_save_disciplina">Salvar</string>
+    <string name="erro_empty_sigla">A sigla é obrigatória</string>
+
 
 </resources>

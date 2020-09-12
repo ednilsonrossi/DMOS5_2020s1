@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     //Constantes do Banco de Dados
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "meus_alunos.db";
 
     //Constantes da tabela Alunos
@@ -17,6 +17,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRONTUARIO = "prontuario";
     public static final String COLUMN_NOME = "nome";
     public static final String COLUMN_EMAIL = "email";
+
+    //Constantes da tabela Disciplina
+    public static final String TABLE_NAME_DISCIPLINAS = "disciplinas";
+    public static final String COLUMN_SIGLA = "sigla";
+    public static final String COLUMN_DISCIPLINA = "disciplina";
 
     public SQLiteHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,7 +36,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sql += COLUMN_NOME + " TEXT NOT NULL, ";
         sql += COLUMN_EMAIL + " TEXT, ";
         sql += "PRIMARY KEY (" + COLUMN_PRONTUARIO + ") );";
+        sqLiteDatabase.execSQL(sql);
 
+        sql = "CREATE TABLE " + TABLE_NAME_DISCIPLINAS + " (";
+        sql += COLUMN_SIGLA + " TEXT NOT NULL, ";
+        sql += COLUMN_DISCIPLINA + " TEXT, ";
+        sql += "PRIMARY KEY (" + COLUMN_SIGLA + ") );";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -41,6 +51,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         switch (oldVersion){
             case 1:
                 sql = "ALTER TABLE " + TABLE_NAME_ALUNOS + " ADD COLUMN " + COLUMN_EMAIL + " TEXT";
+                sqLiteDatabase.execSQL(sql);
+
+            case 2:
+                sql = "CREATE TABLE " + TABLE_NAME_DISCIPLINAS + " (";
+                sql += COLUMN_SIGLA + " TEXT NOT NULL, ";
+                sql += COLUMN_DISCIPLINA + " TEXT, ";
+                sql += "PRIMARY KEY (" + COLUMN_SIGLA + ") );";
                 sqLiteDatabase.execSQL(sql);
         }
     }

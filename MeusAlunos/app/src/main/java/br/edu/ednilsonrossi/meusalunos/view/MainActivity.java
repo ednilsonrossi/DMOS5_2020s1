@@ -16,20 +16,31 @@ import java.util.List;
 
 import br.edu.ednilsonrossi.meusalunos.R;
 import br.edu.ednilsonrossi.meusalunos.dao.AlunoDao;
+import br.edu.ednilsonrossi.meusalunos.dao.DisciplinaDao;
 import br.edu.ednilsonrossi.meusalunos.model.Aluno;
+import br.edu.ednilsonrossi.meusalunos.model.Disciplina;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final int REQUESTCODE_NOVO_ALUNO = 99;
+    public static final int REQUESTCODE_NOVA_DISCIPLINA = 98;
+    boolean verAlunos = true;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView alunosRecyclerView;
+    private RecyclerView disciplinasRecyclerView;
     private ImageView mImageView;
-    private FloatingActionButton adicionarButton;
+    private FloatingActionButton adicionarAlunoButton;
+    private FloatingActionButton alternarButton;
+    private FloatingActionButton adicionarDisciplinaButton;
+
 
     private List<Aluno> mAlunoList;
     private AlunoDao mAlunoDao;
+    private List<Disciplina> mDisciplinaList;
+    private DisciplinaDao mDisciplinaDao;
 
-    private ItemAlunoAdapter mItemAlunoAdapter;
+    private AlunoAdapter mAlunoAdapter;
+    private DisciplinaAdapter mDisciplinaAdapter;
 
 
     @Override
@@ -38,20 +49,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //Recuperar referências do layout
-        mRecyclerView = findViewById(R.id.recylerview_alunos);
+        alunosRecyclerView = findViewById(R.id.recylerview_alunos);
+        disciplinasRecyclerView = findViewById(R.id.recylerview_disciplinas);
         mImageView = findViewById(R.id.image_vazia);
-        adicionarButton = findViewById(R.id.fab_adicionar);
-        adicionarButton.setOnClickListener(this);
+        adicionarAlunoButton = findViewById(R.id.fab_adicionar_aluno);
+        adicionarAlunoButton.setOnClickListener(this);
+        alternarButton = findViewById(R.id.fab_alternar);
+        alternarButton.setOnClickListener(this);
+        adicionarDisciplinaButton = findViewById(R.id.fab_adicionar_disciplina);
+        adicionarDisciplinaButton.setOnClickListener(this);
 
         //Configurar fonte de dados
         mAlunoDao = new AlunoDao(this);
         mAlunoList = mAlunoDao.recuperaTodos();
+        mDisciplinaDao = new DisciplinaDao(this);
+        mDisciplinaList = mDisciplinaDao.recuperaTodos();
+
 
         //Configurar RecyclerView
-        mItemAlunoAdapter = new ItemAlunoAdapter(mAlunoList);
+        mAlunoAdapter = new AlunoAdapter(mAlunoList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mItemAlunoAdapter);
+        alunosRecyclerView.setLayoutManager(layoutManager);
+        alunosRecyclerView.setAdapter(mAlunoAdapter);
+
+        mDisciplinaAdapter = new DisciplinaAdapter(mDisciplinaList);
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this);
+        disciplinasRecyclerView.setLayoutManager(layoutManager2);
+        disciplinasRecyclerView.setAdapter(mDisciplinaAdapter);
+
     }
 
     @Override
@@ -63,9 +88,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.fab_adicionar:
+            case R.id.fab_adicionar_aluno:
                 Intent in = new Intent(this, NovoAlunoActivity.class);
                 startActivityForResult(in, REQUESTCODE_NOVO_ALUNO);
+                break;
+
+            case R.id.fab_alternar:
+                alternar();
+                break;
+
+            case R.id.fab_adicionar_disciplina:
+                Intent intent = new Intent(this, NovaDisciplinaActivity.class);
+                startActivityForResult(intent, REQUESTCODE_NOVA_DISCIPLINA);
                 break;
         }
     }
@@ -75,8 +109,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode){
             case REQUESTCODE_NOVO_ALUNO:
                 if(resultCode == RESULT_OK){
-                    updateDataSet();
-                    mRecyclerView.getAdapter().notifyDataSetChanged();
+                    updateAlunoDataSet();
+                    alunosRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+                break;
+
+            case REQUESTCODE_NOVA_DISCIPLINA:
+                if(resultCode == RESULT_OK){
+                    updateDisciplinaDataSet();
+                    disciplinasRecyclerView.getAdapter().notifyDataSetChanged();
                 }
                 break;
         }
@@ -84,17 +125,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateUI(){
-        if(mAlunoList.size() == 0){
-            mImageView.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
-        }else{
-            mImageView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
+        if(verAlunos) {
+            if (mAlunoList.size() == 0) {
+                mImageView.setVisibility(View.VISIBLE);
+                alunosRecyclerView.setVisibility(View.GONE);
+            } else {
+                mImageView.setVisibility(View.GONE);
+                alunosRecyclerView.setVisibility(View.VISIBLE);
+            }
+        }else {
+            if (mDisciplinaList.size() == 0) {
+                mImageView.setVisibility(View.VISIBLE);
+                disciplinasRecyclerView.setVisibility(View.GONE);
+            } else {
+                mImageView.setVisibility(View.GONE);
+                disciplinasRecyclerView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
-    private void updateDataSet(){
+    private void alternar(){
+        if(verAlunos){
+            disciplinasRecyclerView.setVisibility(View.VISIBLE);
+            alunosRecyclerView.setVisibility(View.GONE);
+            alternarButton.setImageDrawable(getDrawable(R.drawable.ic_face));
+            adicionarDisciplinaButton.show();
+            adicionarAlunoButton.hide();
+        }else{
+            disciplinasRecyclerView.setVisibility(View.GONE);
+            alunosRecyclerView.setVisibility(View.VISIBLE);
+            alternarButton.setImageDrawable(getDrawable(R.drawable.ic_discipline));
+            adicionarDisciplinaButton.hide();
+            adicionarAlunoButton.show();
+        }
+        verAlunos = !verAlunos;
+        updateUI();
+    }
+
+    private void updateAlunoDataSet(){
         mAlunoList.clear();
         mAlunoList.addAll(mAlunoDao.recuperaTodos());
+    }
+
+    private void updateDisciplinaDataSet(){
+        mDisciplinaList.clear();
+        mDisciplinaList.addAll(mDisciplinaDao.recuperaTodos());
     }
 }

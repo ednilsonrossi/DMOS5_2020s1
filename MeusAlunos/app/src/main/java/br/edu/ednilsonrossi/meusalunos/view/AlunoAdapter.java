@@ -11,21 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import br.edu.ednilsonrossi.meusalunos.R;
-import br.edu.ednilsonrossi.meusalunos.dao.AlunoDao;
 import br.edu.ednilsonrossi.meusalunos.model.Aluno;
 
-public class ItemAlunoAdapter extends RecyclerView.Adapter<ItemAlunoAdapter.AlunoViewHolder> {
+public class AlunoAdapter extends RecyclerView.Adapter<AlunoAdapter.AlunoViewHolder> {
 
     private List<Aluno> mAlunoList;
 
-    public ItemAlunoAdapter(@NonNull List<Aluno> alunos) {
+    public AlunoAdapter(@NonNull List<Aluno> alunos) {
         this.mAlunoList = alunos;
     }
 
     @NonNull
     @Override
     public AlunoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_aluno_recyclerview, parent, false);
         AlunoViewHolder viewHolder = new AlunoViewHolder(view);
         return viewHolder;
     }
