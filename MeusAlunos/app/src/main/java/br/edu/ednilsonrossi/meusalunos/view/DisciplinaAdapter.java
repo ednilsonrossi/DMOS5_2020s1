@@ -17,9 +17,14 @@ import br.edu.ednilsonrossi.meusalunos.model.Disciplina;
 public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.DisciplinaViewHolder>{
 
     private List<Disciplina> mDisciplinaList;
+    private static  DisciplinaClickListener clickListener;
 
     public DisciplinaAdapter(List<Disciplina> disciplinas) {
         this.mDisciplinaList = disciplinas;
+    }
+
+    public void setClickListener(DisciplinaClickListener clickListener) {
+        DisciplinaAdapter.clickListener = clickListener;
     }
 
     @NonNull
@@ -40,13 +45,22 @@ public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.Di
         return mDisciplinaList.size();
     }
 
-    public class DisciplinaViewHolder extends RecyclerView.ViewHolder{
+    public class DisciplinaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView siglaTextView;
 
         public DisciplinaViewHolder(@NonNull View itemView) {
             super(itemView);
             siglaTextView = itemView.findViewById(R.id.textview_nome_disciplina);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(clickListener != null){
+                clickListener.onDisciplinaClick(getAdapterPosition());
+            }
         }
     }
 }

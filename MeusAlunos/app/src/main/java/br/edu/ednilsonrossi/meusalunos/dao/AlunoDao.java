@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ednilsonrossi.meusalunos.exceptions.ChavePrimariaDuplicadaException;
 import br.edu.ednilsonrossi.meusalunos.model.Aluno;
+import br.edu.ednilsonrossi.meusalunos.model.Disciplina;
 
 public class AlunoDao {
 
@@ -41,6 +43,7 @@ public class AlunoDao {
         List<Aluno> mAlunoList;
         Aluno mAluno;
         Cursor mCursor;
+        DisciplinaDao mDisciplinaDao = new DisciplinaDao(mHelper.getContext());
 
         mAlunoList = new ArrayList<>();
 
@@ -68,6 +71,7 @@ public class AlunoDao {
                     mCursor.getString(1),
                     mCursor.getString(2)
             );
+            mAluno.addDisciplina(mDisciplinaDao.recuperaTodasDisciplinas(mAluno));
             mAlunoList.add(mAluno);
         }
 
@@ -75,4 +79,70 @@ public class AlunoDao {
         mSqLiteDatabase.close();
         return mAlunoList;
     }
+
+    public List<Aluno> recuperaTodosAlunos(Disciplina disciplina){
+        List<Aluno> mAlunoList;
+        Aluno mAluno;
+        Cursor mCursor;
+
+        mAlunoList = new ArrayList<>();
+
+        String sql = "SELECT A." + SQLiteHelper.COLUMN_PRONTUARIO + ", " +
+                "A." + SQLiteHelper.COLUMN_NOME + ", " +
+                "A." + SQLiteHelper.COLUMN_EMAIL +
+                " FROM " + SQLiteHelper.TABLE_NAME_ALUNOS + " AS A " +
+                " INNER JOIN " + SQLiteHelper.TABLE_NAME_MATRICULAS + " AS M " +
+                " WHERE A." + SQLiteHelper.COLUMN_PRONTUARIO + " = M." + SQLiteHelper.COLUMN_PRONTUARIO +
+                " AND " + SQLiteHelper.COLUMN_SIGLA + " = ? ORDER BY " + SQLiteHelper.COLUMN_NOME;
+
+        String argumentos[] = new String[]{
+                disciplina.getSigla()
+        };
+
+        mSqLiteDatabase = mHelper.getReadableDatabase();
+        mCursor = mSqLiteDatabase.rawQuery(sql, argumentos);
+
+        while(mCursor.moveToNext()){
+            mAluno = new Aluno(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2));
+            mAlunoList.add(mAluno);
+        }
+
+        mCursor.close();
+        mSqLiteDatabase.close();
+        return mAlunoList;
+    }
+
+    public List<Aluno> recuperaTodosAlunosNaoMatriculados(Disciplina disciplina){
+        List<Aluno> mAlunoList;
+        Aluno mAluno;
+        Cursor mCursor;
+
+        mAlunoList = new ArrayList<>();
+
+        String sql = "SELECT A." + SQLiteHelper.COLUMN_PRONTUARIO + ", " +
+                "A." + SQLiteHelper.COLUMN_NOME + ", " +
+                "A." + SQLiteHelper.COLUMN_EMAIL +
+                " FROM " + SQLiteHelper.TABLE_NAME_ALUNOS + " AS A " +
+                " WHERE " + SQLiteHelper.COLUMN_PRONTUARIO + " NOT IN (" +
+                " SELECT " + SQLiteHelper.COLUMN_PRONTUARIO + " FROM " + SQLiteHelper.TABLE_NAME_MATRICULAS +
+                " WHERE " + SQLiteHelper.COLUMN_SIGLA + " = ? )";
+
+        String argumentos[] = new String[]{
+                disciplina.getSigla()
+        };
+
+        mSqLiteDatabase = mHelper.getReadableDatabase();
+        mCursor = mSqLiteDatabase.rawQuery(sql, argumentos);
+
+        while(mCursor.moveToNext()){
+            mAluno = new Aluno(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2));
+            mAlunoList.add(mAluno);
+        }
+
+        mCursor.close();
+        mSqLiteDatabase.close();
+        return mAlunoList;
+    }
+
+
 }

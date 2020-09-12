@@ -16,5 +16,8 @@
     <string name="button_save_disciplina">Salvar</string>
     <string name="erro_empty_sigla">A sigla é obrigatória</string>
 
+    <!-- MatriculaAlunoActivity -->
+    <string name="message_matricular">Clique no aluno para matricular na disciplina</string>
+
 
 </resources>

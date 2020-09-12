@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import br.edu.ednilsonrossi.meusalunos.R;
+import br.edu.ednilsonrossi.meusalunos.constantes.Constantes;
 import br.edu.ednilsonrossi.meusalunos.dao.AlunoDao;
 import br.edu.ednilsonrossi.meusalunos.dao.DisciplinaDao;
 import br.edu.ednilsonrossi.meusalunos.model.Aluno;
@@ -76,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this);
         disciplinasRecyclerView.setLayoutManager(layoutManager2);
         disciplinasRecyclerView.setAdapter(mDisciplinaAdapter);
+
+        mDisciplinaAdapter.setClickListener(new DisciplinaClickListener() {
+            @Override
+            public void onDisciplinaClick(int position) {
+                Intent intent = new Intent(getApplicationContext(), DetalhesDisciplinaActivity.class);
+                intent.putExtra(Constantes.KEY_SIGLA, mDisciplinaList.get(position).getSigla());
+                startActivity(intent);
+            }
+        });
 
     }
 

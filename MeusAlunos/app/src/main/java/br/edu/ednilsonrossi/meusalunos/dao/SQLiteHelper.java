@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     //Constantes do Banco de Dados
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "meus_alunos.db";
 
     //Constantes da tabela Alunos
@@ -23,8 +23,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SIGLA = "sigla";
     public static final String COLUMN_DISCIPLINA = "disciplina";
 
+    //Constantes da tabela Matricula
+    public static final String TABLE_NAME_MATRICULAS = "matriculas";
+
+
+    private Context mContext;
+
     public SQLiteHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+
+    public Context getContext(){
+        return mContext;
     }
 
     @Override
@@ -43,6 +54,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sql += COLUMN_DISCIPLINA + " TEXT, ";
         sql += "PRIMARY KEY (" + COLUMN_SIGLA + ") );";
         sqLiteDatabase.execSQL(sql);
+
+        sql = "CREATE TABLE " + TABLE_NAME_MATRICULAS + " (";
+        sql += COLUMN_SIGLA + " TEXT NOT NULL, ";
+        sql += COLUMN_PRONTUARIO + " TEXT NOT NULL, ";
+        sql += "PRIMARY KEY (" + COLUMN_SIGLA + ", " + COLUMN_PRONTUARIO + "), ";
+        sql += "FOREIGN KEY (" + COLUMN_SIGLA + ") REFERENCES " + TABLE_NAME_DISCIPLINAS + " (" + COLUMN_SIGLA + "), ";
+        sql += "FOREIGN KEY (" + COLUMN_PRONTUARIO + ") REFERENCES " + TABLE_NAME_ALUNOS + " (" + COLUMN_PRONTUARIO + ") );";
+        sqLiteDatabase.execSQL(sql);
     }
 
     @Override
@@ -58,6 +77,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 sql += COLUMN_SIGLA + " TEXT NOT NULL, ";
                 sql += COLUMN_DISCIPLINA + " TEXT, ";
                 sql += "PRIMARY KEY (" + COLUMN_SIGLA + ") );";
+                sqLiteDatabase.execSQL(sql);
+
+            case 3:
+                sql = "CREATE TABLE " + TABLE_NAME_MATRICULAS + " (";
+                sql += COLUMN_SIGLA + " TEXT NOT NULL, ";
+                sql += COLUMN_PRONTUARIO + " TEXT NOT NULL, ";
+                sql += "PRIMARY KEY (" + COLUMN_SIGLA + ", " + COLUMN_PRONTUARIO + "), ";
+                sql += "FOREIGN KEY (" + COLUMN_SIGLA + ") REFERENCES " + TABLE_NAME_DISCIPLINAS + " (" + COLUMN_SIGLA + "), ";
+                sql += "FOREIGN KEY (" + COLUMN_PRONTUARIO + ") REFERENCES " + TABLE_NAME_ALUNOS + " (" + COLUMN_PRONTUARIO + ") );";
                 sqLiteDatabase.execSQL(sql);
         }
     }
