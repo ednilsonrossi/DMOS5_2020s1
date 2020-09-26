@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Busca Endereco</string>
+
+    <!-- main_activity.xml -->
+    <string name="cep">cep</string>
+    <string name="logradouro">logradouro</string>
+    <string name="complemento">complemento</string>
+    <string name="bairro">bairro</string>
+    <string name="localidade">cidade</string>
+    <string name="uf">uf</string>
+    <string name="hint_digite_cep">Digite CEP (Somente números)</string>
+    <string name="botao_buscar">buscar</string>
+    <string name="cep_invalido">CEP informado é inválido.</string>
+    <string name="erro_api">Erro ao localizar CEP.</string>
+    <string name="explicacao_permissao">A busca do endereço depende do acesso a internet, sem essa permissão o aplicativo não consegue recuperar a informação desejada.</string>
+    <string name="botao_fornecer">Fornecer</string>
+    <string name="botao_nao_fornecer">Agora não</string>
+</resources>
+
